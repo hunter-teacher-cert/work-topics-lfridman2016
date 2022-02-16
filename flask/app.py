@@ -25,32 +25,23 @@ def index():
 
 @app.route("/projects", methods=['GET','POST'])
 def projects():      
-  #print("Start of session")
-  #print(session)
   if 'count' not in session:
     session['count'] = 1
   else:
     session['count'] = session['count'] + 1
   print("Count ")
   print(session['count'])    
-  #if 'posts' not in session:
   if not session.get('posts'):
-    #print("Not in session")
     session['posts'] = posts
   if request.method=="GET": 
     return render_template('posts.html', title='Home', user=user, posts=session['posts'])
   else:
     session['count'] = session['count'] +1
-    #print("Session before append")
-    #print(session['posts'])
     session['posts'].append(
       {'name': request.form['name'],
       'description': request.form['description'],
       'link': request.form['link']}
     )
-    #print("Session after append")
-    #print(session['posts'])
-    #print(session['count'])
 
   return render_template('posts.html',title='Projects', user=user, posts=session['posts'])
    

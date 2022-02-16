@@ -1,15 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form method="POST">
-  Name: <input type="text" name="name"/>
-  <br>Description: <input type="text" name="description"/>
-  <br>Link: <input type="text" name="link"/>
+<form method="POST"  class="decor>
+      
+  <div class="form-left-decoration"></div>
+  <div class="form-right-decoration"></div>
+  <div class="circle"></div>
+
+  <div class="form-inner">  
+  <input type="text" name="name" placeholder="Name"/>
+  <br><input type="text" name="description" placeholder="Description"/>
+  <br><input type="text" name="link" placeholder="Link"/>
   <br><button>Go</button>
 </form>  
-        <h1>Virtual Bulletin Board</h1>
+  </div>
+  </div>
+  </div>
+    <div id="posts">
         {% for post in posts %}
-          <div><p>{{ post.name }} : <b>{{ post.description }}</b><br/>
+          <div class="post"><p>{{ post.name }} : <b>{{ post.description }}</b><br/>
           {{ post.link }}   </p></div>
-        {% endfor %}        
+        {% endfor %}   
+     </div>        
 {% endblock %}

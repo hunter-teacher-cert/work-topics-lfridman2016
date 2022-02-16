@@ -1,24 +1,57 @@
-from flask import Flask
+from flask import Flask, request, session 
 from flask import render_template
 
-import random
-
 app = Flask(__name__)
+app.secret_key="something"
 
-@app.route('/')
-@app.route('/index')
-def index():
-    user = {'username': 'Lyuba'}
-    posts = [
+user = {'username': 'Lyuba'}
+posts = [
             {
-                'author': {'username': 'John'},
-                'body': 'Beautiful day in Portland!'
+                'name': 'Mike',
+                'description': 'Example Flask app',
+                'link': 'https://replit.com/@LyubaFridman/flask-web-demo#app.py'
             },
             {
-                'author': {'username': 'Susan'},
-                'body': 'The Avengers movie was so cool!'
+                'name': 'Lyuba',
+                'description': 'CS Topics Project',
+                'link': 'https://replit.com/@LyubaFridman/work-topics-lfridman2016#flask/app.py'
             }
-        ]    
-    return render_template('index.html', title='Home', user=user, posts=posts)
+        ]     
+# the "root" route
+@app.route('/')
+@app.route('/index')
+def index():  
+  return render_template("index.html")
 
+@app.route("/projects", methods=['GET','POST'])
+def projects():      
+  #print("Start of session")
+  #print(session)
+  if 'count' not in session:
+    session['count'] = 1
+  else:
+    session['count'] = session['count'] + 1
+  print("Count ")
+  print(session['count'])    
+  #if 'posts' not in session:
+  if not session.get('posts'):
+    #print("Not in session")
+    session['posts'] = posts
+  if request.method=="GET": 
+    return render_template('posts.html', title='Home', user=user, posts=session['posts'])
+  else:
+    session['count'] = session['count'] +1
+    #print("Session before append")
+    #print(session['posts'])
+    session['posts'].append(
+      {'name': request.form['name'],
+      'description': request.form['description'],
+      'link': request.form['link']}
+    )
+    #print("Session after append")
+    #print(session['posts'])
+    #print(session['count'])
+
+  return render_template('posts.html',title='Projects', user=user, posts=session['posts'])
+   
 app.run(host="0.0.0.0",port=5000,debug=True)

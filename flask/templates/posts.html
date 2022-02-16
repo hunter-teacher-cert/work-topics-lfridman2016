@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="POST">
+  Name: <input type="text" name="name"/>
+  <br>Description: <input type="text" name="description"/>
+  <br>Link: <input type="text" name="link"/>
+  <br><button>Go</button>
+</form>  
+        <h1>Virtual Bulletin Board</h1>
+        {% for post in posts %}
+          <div><p>{{ post.name }} : <b>{{ post.description }}</b><br/>
+          {{ post.link }}   </p></div>
+        {% endfor %}        
+{% endblock %}
